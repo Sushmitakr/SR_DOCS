@@ -1,0 +1,158 @@
+1)test environment setup
+
+2)mockito
+
+3)diff b/w mock and mock environment
+
+4)spring support for junit testing
+
+unit test			Integration Testing
+----------			-------------------
+use of mock
+
+
+=> testing for multiple controllers -> we need 			webApplicationContext();
+
+init mock
+inject mock repo
+
+
+h2-database- in memory database
+
+
+
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest
+public class UserControllerTest {
+    private MockMvc userMockMvc;
+    
+    @Mock
+    private User user;
+    
+    @Mock
+    private UserService userService;
+    
+    @InjectMocks
+    private UserController userController=new UserController();
+    
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        userMockMvc=MockMvcBuilders.standaloneSetup(userController)
+                .build();
+            
+    }
+    
+    @Test
+    public void testGetAllUsers() throws Exception {
+            
+        List<User> users=Arrays.asList(
+                new User("john","John","password"),
+                new User("chris","Chris","password2"));
+        
+        when(userService.list()).thenReturn(users);
+        
+        userMockMvc.perform(get("/api/user"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].username", is("john")))
+                .andExpect(jsonPath("$[0].name", is("John")))
+                .andExpect(jsonPath("$[0].password", is("password")))
+                .andExpect(jsonPath("$[1].username", is("chris")))
+                .andExpect(jsonPath("$[1].name", is("Chris")))
+                .andExpect(jsonPath("$[1].password", is("password2")))
+                ;
+        verify(userService, times(1)).list(); 
+    }
+    
+    
+    
+    
+    @Test
+    public void testGetSpecificUser() throws Exception {
+        
+        User user=new User("john","John","password");
+        when(userService.get("john")).thenReturn(user);
+        userMockMvc.perform(get("/api/user/john"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.username", is("john")))
+                .andExpect(jsonPath("$.name", is("John")))
+                .andExpect(jsonPath("$.password", is("password")));
+      
+    }
+    
+    
+    @Test
+    public void testCreateNewUser() throws Exception {
+        
+        User user=new User("john","John","password");
+        when(userService.get("john")).thenReturn(null);
+    
+        userMockMvc.perform(post("/api/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(user)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.username", is("john")))
+                .andExpect(jsonPath("$.name", is("John")))
+                .andExpect(jsonPath("$.password", is("password")));
+    }
+    
+    @Test
+    public void testCreateNewUserFailure() throws Exception {
+        
+        User user=new User("john","John","password");
+        when(userService.get("john")).thenReturn(user);
+    
+        userMockMvc.perform(post("/api/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(user)))
+                .andExpect(status().isConflict());
+    }
+    
+    @Test
+    public void testUpdateExistingUser() throws Exception {
+    
+        User user=new User("john","John","password");
+        
+        when(userService.get("john")).thenReturn(user);
+        
+        User updatedUser=new User("john","John","password2");
+        when(userService.get("john")).thenReturn(user);
+    
+        userMockMvc.perform(put("/api/user/john")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(updatedUser)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username", is("john")))
+                .andExpect(jsonPath("$.name", is("John")))
+                .andExpect(jsonPath("$.password", is("password2")));
+    }
+    
+    @Test
+    public void testUpdateInvalidUser() throws Exception {
+        User updatedUser=new User("john","John","password2");
+        when(userService.get("john")).thenReturn(user);
+    
+        userMockMvc.perform(put("/api/user/john2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(updatedUser)))
+                .andExpect(status().isNotFound());
+    }
+    
+    
+    
+    /*
+     * converts a Java object into JSON representation
+     */
+     
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+}

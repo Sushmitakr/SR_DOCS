@@ -1,0 +1,78 @@
+1)
+URL- http://localhost:8080/api/game/gamedescriptor
+
+METHOD- POST
+
+REQUEST BODY-> RAW
+
+ {
+"gamedescriptorid":2,
+"gamedescriptorname":"JAVA",
+"gamedescriptordescription":"Programming Language",
+"popularity":"4589"
+}
+
+Content-Type -> JSON(application/json)
+
+2)
+URL- http://localhost:8080/api/game/getAll
+
+METHOD- GET
+
+STATUS- 200 OK
+
+TIME -> 335ms
+
+SIZE -> 371 B
+
+RESPONSE BODY-> RAW
+
+[{"gamedescriptorid":1,"gamedescriptorname":"IPL","gamedescriptordescription":"Indian Premier League","popularity":2890},{"gamedescriptorid":2,"gamedescriptorname":"JAVA","gamedescriptordescription":"Programming Language","popularity":4589}]
+
+CONTENT-TYPE -> application/json:charset=UTF-8
+
+
+Progressive web app
+Light house
+
+
+
+TRANSFER-ENCODING -> chunked
+
+GET /api/game/getAll HTTP/1.1
+Host: localhost:8080
+Cache-Control: no-cache
+Postman-Token: da3355ca-bf42-49c3-9139-1cad9b2fe50b
+
+--------------------------------------------------------------------------------------------------------------------------------------
+														5/05/2018
+GT-> SP/MP
+	|
+    ---------------
+     1)FFF
+     2)Time Based
+     3)Adaptive
+
+		Q     S      T
+	---------------------------
+	E->	5	5	5
+
+	M->	4	8	8
+
+	A->	1	7	7
+
+IF ( MULTIPLAYER )-> MIN-2,MAX-4
+
+FROM BACKEND IN POSTMAN I CAN PASS -> ID,GAMETYPE,DESCRIPTION
+
+
+
+
+
+
+
+
+
+
+
+

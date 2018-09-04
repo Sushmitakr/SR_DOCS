@@ -1,0 +1,26 @@
+bable repl
+webpack
+Just in time compiler(JIT)-> TO SEE THE CHANGES INSTANTLY
+MINIFICATION
+UGLIFICATION
+
+
+NG BUILD --TARGET=PRODUCTION  //used at production build time 					to reduce the code.
+
+AOP(ahead in time compiler)
+
+ng build
+ng serve --prod
+ng deploy server
+
+create docker
+
+Dockerfile->
+-----------
+
+FROM node:6.9.1
+RUN mkdir src/app/restaurant
+COPY dist src/app/restaurant
+COPY deploy-package.json src/app/restaurant/package.json
+COPY deploy-server.json src/app/restaurant
+WORKDIR src/app/restaurant

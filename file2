@@ -1,0 +1,37 @@
+command to change the database value ->
+					sudo -H gedit /etc/enviroment
+
+
+data modelling for doc based database-mongo
+
+
+RDFS
+OWL
+PROPERTIES GRAPH-> NEO4J
+
+
+DOCKER
+
+
+ANGULAR
+
+
+project
+-------
+
+activity streams
+msg multiplex
+
+no http
+non trivial
+large volume data
+intelligence
+
+
+bootstraping->
+
+doing things faster with minimal resources
+
+
+
+

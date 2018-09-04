@@ -1,0 +1,142 @@
+
+5 Class Design Principles[S.O.L.I.D] In JAVA:-
+--------------------------------------------
+1. Single Responsibility Principle ->
+
+	One class = One Responsibility(1 purpose)
+
+	 you should write, change and maintain a class for only one purpose.
+	 If it is model class then it should strictly represent only one actor/ entity. 
+	This will give you the flexibility to make changes in future without worrying the impacts of changes for another entity.
+
+
+
+
+    Old Code:
+    --------
+
+     class Person {
+   	private string name;
+   	private surname : string;
+   	private email : string;
+
+  	constructor(name : string, surname : string, email : string){
+       	this.surname = surname;
+       	this.name = name;
+      	 if(this.validateEmail(email)) {
+         this.email = email;
+       	}
+       	else {
+           throw new Error("Invalid email!");
+          }
+        }
+
+     validateEmail(email : string) {
+       var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+       return re.test(email);
+      }
+      greet() {
+       alert("Hi!");
+    }
+}
+
+applying Principle:
+------------------
+
+class Email {
+   private String email;
+   private String from;
+private String to;
+private String subject;
+
+public Email(String email, String from, String to, String subject){
+
+
+
+}
+//getter and setter method goes here
+
+
+   
+}
+class EmailValidator{
+
+static boolean validateEmail(Email email) {
+       //validation logic goes here.
+
+   }
+}
+
+
+class Person {
+   private String name;
+   private String surname ;
+   private Email email ;
+  public Person(String name,String surname, Email email ){
+       this.email = email;
+       this.name = name;
+       this.surname = surname;
+   }
+   
+
+}
+
+public static void main(String[] args){
+
+Email email1 = new Email("emailTest","james@gmail.com", "bond@gmail.com", "Test1");
+
+if(EmailValidator.validateEmail(email1)){
+	Person person = new Person("James", "Bond", email1 );
+
+}
+
+
+}
+
+
+OYO is an online platform for hotel booking in india.
+Oyo network is into more than 200 cities in India.
+User will register/login on the website.
+User has to select the city,find best deals,proceed to book,enter details and pay to book.
+Customer will book hotel for stay and OYO will confirm the booking if available.
+At the time of check-in, hotel will validate the identity of person with linked adhaar number.If matched, Onboarding will be successfull
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
